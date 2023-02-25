@@ -29,11 +29,11 @@ canvas_bg = "#18BCAC"
 grid = Grid(rows_and_cols, rows_and_cols, grid_width, grid_height, (window_width-grid_width) / 2, (window_height-grid_height) / 2, cell_size) #creating a grid object
 
 
-
 root = Tk() # root tkinter window
 root.title("Tic Tac Toe") #title of game
 root.geometry("{0}x{1}".format(window_width, window_height)) #setting the window dimensions
 root.resizable(False, False) #disabling user's window resizing ability
+
 
 
 # callback function for clicking mouse on canvas
@@ -42,17 +42,20 @@ def mouseClicked(event):
 	
 	for i in range(rows_and_cols):
 		for j in range(rows_and_cols):
+			# if the mouse is clicked and the cursor is located within a cell (and game is not over), then...
 			if (event.x >= grid.cells[i][j].x and event.x <= grid.cells[i][j].x + cell_size and event.y >= grid.cells[i][j].y and event.y <= grid.cells[i][j].y + cell_size) and not gameOver:
+				# if the cell is empty,
 				if grid.cells[i][j].occupiedBy == '':
-					grid.cells[i][j].occupiedBy = turn
-					turn = players[abs(players.index(turn) - 1)]
-								
-					grid.draw(canvas)
-					checkIfGameOver()
+					grid.cells[i][j].occupiedBy = turn #the cell becomes occupied by the player whose turn it was
+					turn = players[abs(players.index(turn) - 1)]  #And now, it's the other player's turn.				
+
+					grid.draw(canvas) #the grid is redrawn/updated
+					checkIfGameOver() #it is checked if game is over
 				else:
 					print("Occupied cell!")
 				
 				whenGameOver()
+
 
 
 canvas = Canvas(root, bg = canvas_bg, height = window_width, width = window_height)
@@ -62,9 +65,9 @@ grid.draw(canvas)
 
 
 
+# Checks if win when called
 def checkIfWin():
 	global winner, gameOver
-	
 	
 	rows_filled = list(set((grid.cells[i][j].occupiedBy == grid.cells[i][0].occupiedBy) and grid.cells[i][j].occupiedBy != '' for j in range(rows_and_cols)) for i in range(rows_and_cols))
 	cols_filled = list(set((grid.cells[j][i].occupiedBy == grid.cells[0][i].occupiedBy) and grid.cells[j][i].occupiedBy != '' for j in range(rows_and_cols)) for i in range(rows_and_cols))
@@ -90,6 +93,7 @@ def checkIfWin():
 		gameOver = True
 
 
+# Checks if tie when called
 def checkIfTie():
 	global gameOver, tie
 	
@@ -104,6 +108,7 @@ def checkIfGameOver():
 	checkIfTie() #if not, then check if tie
 
 
+# What is done when game is over
 def whenGameOver():
 	global canvas
 	
