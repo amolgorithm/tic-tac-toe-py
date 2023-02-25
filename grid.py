@@ -1,4 +1,4 @@
-from cell import *
+from cell import *   #personal file
 
 
 class Grid:
@@ -10,17 +10,19 @@ class Grid:
 		self.height = height
 		self.cell_size = cell_size
 		
+		# creating cells
 		for i in range(rows):
 			self.cells.append([])
 			for j in range(cols):
 				self.cells[i].append(Cell(margin_width + cell_size * j, margin_height + cell_size * i))
 				
 	def draw(self, _canvas):
-		
+		# draws actual grid
 		for n in range(self.rows - 1):
 			_canvas.create_line(self.cells[n][0].x, self.cells[n][0].y + self.cell_size, self.cells[n][0].x + self.width, self.cells[n][0].y + self.cell_size, fill = "#0DA192", width = self.height/(10 * self.rows))
 			_canvas.create_line(self.cells[0][n].x + self.cell_size, self.cells[0][n].y, self.cells[0][n].x + self.cell_size, self.cells[0][n].y + self.height, fill = "#0DA192", width = self.height/(10 * self.rows))
-			
+		
+		# draws cell contents
 		for i in range(self.rows):
 			for j in range(self.cols):
 				currentCell = self.cells[i][j]
